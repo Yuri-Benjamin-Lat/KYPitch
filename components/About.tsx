@@ -3,7 +3,7 @@ export default function About() {
         <div id="about" className="w-full flex flex-col
         py-16 px-8
         md:py-32 md:px-12
-        lg:py-24 lg:px-12
+        lg:py-40 lg:px-12
         ">
             <p className="text-center font-bold
             text-2xl
