@@ -1,7 +1,7 @@
 import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
-import PageTitle from "./masterComponents/PageTitle";
+import PageTitle from "@/components/PageTitle";
 
 export default function masterPage() {
   return (
@@ -9,7 +9,7 @@ export default function masterPage() {
       <div className="w-full max-w-[1200px] mx-auto flex-1 flex flex-col bg-background">
         <NavigationBar />
         <Utilities />
-        <PageTitle />
+        <PageTitle title="Master Mode" backHref="/dashboard" />
       </div>
       <Footer />
     </div>

@@ -1,7 +1,7 @@
 import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
-import PageTitle from "./easyComponents/PageTitle";
+import PageTitle from "@/components/PageTitle";
 
 export default function easyPage() {
   return (
@@ -9,7 +9,7 @@ export default function easyPage() {
       <div className="w-full max-w-[1200px] mx-auto flex-1 flex flex-col bg-background">
         <NavigationBar />
         <Utilities />
-        <PageTitle />
+        <PageTitle title="Easy Mode" backHref="/dashboard" />
       </div>
       <Footer />
     </div>
