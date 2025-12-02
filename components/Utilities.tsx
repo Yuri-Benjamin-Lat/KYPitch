@@ -1,7 +1,7 @@
 "use client";
 
-import LightDarkMode from "./UtilitiesComponents/LightDarkMode";
-import MusicPlayer from "./UtilitiesComponents/MusicPlayer";
+import LightDarkMode from "./utilitiesComponents/LightDarkMode";
+import MusicPlayer from "./utilitiesComponents/MusicPlayer";
 
 export default function Utilities() {
     return (
