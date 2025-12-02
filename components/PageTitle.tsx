@@ -30,7 +30,7 @@ export default function PageTitle({
   return (
     <div
       className={`flex flex-col items-center relative
-        py-4 px-4 md:py-6 md:px-8 lg:py-8 lg:px-8 ${className}`}
+        py-4 px-4 md:py-8 md:px-8 lg:py-8 lg:px-8 ${className}`}
     >
       {showBack && (
         <button

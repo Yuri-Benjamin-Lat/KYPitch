@@ -53,7 +53,7 @@ export default function Contents() {
                         ">
                     <button
                         type="button"
-                        className="rounded-xl hover:bg-[var(--accent)] bg-background
+                        className="rounded-xl hover:bg-[var(--FH4)] bg-background
                                     border-2 
                                     md:border-3
                                     lg:border-4
@@ -67,7 +67,7 @@ export default function Contents() {
                     </button>
                     <button
                         type="button"
-                        className="rounded-xl hover:bg-[var(--accent)] bg-background
+                        className="rounded-xl hover:bg-[var(--D4)] bg-background
                                     border-2 
                                     md:border-3
                                     lg:border-4
@@ -81,7 +81,7 @@ export default function Contents() {
                     </button>
                     <button
                         type="button"
-                        className="rounded-xl hover:bg-[var(--accent)] bg-background
+                        className="rounded-xl hover:bg-[var(--CH4)] bg-background
                                     border-2
                                     md:border-3
                                     lg:border-4
@@ -95,7 +95,7 @@ export default function Contents() {
                     </button>
                     <button
                         type="button"
-                        className="rounded-xl hover:bg-[var(--accent)] bg-background
+                        className="rounded-xl hover:bg-[var(--AH4)] bg-background
                                     border-2
                                     md:border-3
                                     lg:border-4
