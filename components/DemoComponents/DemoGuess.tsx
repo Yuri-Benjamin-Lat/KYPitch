@@ -114,7 +114,7 @@ export default function DemoGuess({ playNote, selectedNote, clearSelected }: Pro
                 {/* "?" Random Note Button */}
                 <button
                     onClick={pickRandomNote}
-                    className="rounded-full border-foreground text-foreground font-semibold transition flex items-center justify-center text-center
+                    className="rounded-full border-foreground text-foreground font-semibold transition flex items-center justify-center text-center hover:opacity-70
                     text-xl
                     md:px-6 md:py-6 md:text-2xl 
                     lg:px-10 lg:py-10 lg:text-4xl

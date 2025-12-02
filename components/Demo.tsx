@@ -71,7 +71,7 @@ export default function DemoNotes() {
                             aspect-square rounded-lg border-foreground text-foreground font-semibold transition flex items-center justify-center text-center
                             px-4 py-4 border-2 text-xl
                             md:px-6 md:py-6 md:border-3 md:text-2xl
-                            lg:px-10 lg:py-10 lg:border-4 lg:text-4xl
+                            lg:px-10 lg:py-10 lg:border-4 lg:text-4xl lg:rounded-2xl
                             hover:text-background hover:bg-[var(--note-color)]"
                             aria-pressed={selectedNote === note.label}
                         >
