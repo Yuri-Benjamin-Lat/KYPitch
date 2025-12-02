@@ -1,7 +1,11 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+
 import useClickOutsideToggle from "./contentsHooks/useClickOutsideToggle";
 
 export default function Contents() {
+    const router = useRouter();
     // Challenge hook
     const {
         open: showChallengeMenu,
@@ -23,12 +27,17 @@ export default function Contents() {
 
             {/* PRACTICE */}
             <div
+                onClick={() => router.push("/dashboard/practice")}
+                role="button"
+                aria-label="Practice"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") router.push("/dashboard/practice");
+                }}
                 className="aspect-square bg-[var(--accent2)] hover:bg-[var(--accent)] flex items-center justify-center
                         border-2 rounded-xl text-4xl
                         md:border-3
                         lg:border-4 lg:text-6xl"
-                role="button"
-                aria-label="Practice"
                 >
                 Practice
             </div>
@@ -49,7 +58,10 @@ export default function Contents() {
                                     md:border-3
                                     lg:border-4
                                     "
-                        onClick={() => console.log("Easy clicked")}
+                        onClick={() => router.push("/dashboard/challenge/easy")}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/easy");
+                        }}
                     >
                         Easy
                     </button>
@@ -60,7 +72,10 @@ export default function Contents() {
                                     md:border-3
                                     lg:border-4
                                     "
-                        onClick={() => console.log("Medium clicked")}
+                        onClick={() => router.push("/dashboard/challenge/medium")}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/medium");
+                        }}
                     >
                         Medium
                     </button>
@@ -71,7 +86,10 @@ export default function Contents() {
                                     md:border-3
                                     lg:border-4
                                     "
-                        onClick={() => console.log("Hard clicked")}
+                        onClick={() => router.push("/dashboard/challenge/hard")}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/hard");
+                        }}
                     >
                         Hard
                     </button>
@@ -82,7 +100,10 @@ export default function Contents() {
                                     md:border-3
                                     lg:border-4
                                     "
-                        onClick={() => console.log("Master clicked")}
+                        onClick={() => router.push("/dashboard/challenge/master")}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/master");
+                        }}
                     >
                         Master
                     </button>
@@ -109,6 +130,10 @@ export default function Contents() {
 
             {/* LEADERBOARDS */}
             <div
+                onClick={() => router.push("/dashboard/leaderboards")}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") router.push("/dashboard/leaderboards");
+                }}            
                 className="aspect-square bg-[var(--accent2)] hover:bg-[var(--accent)] flex items-center justify-center cursor-pointer
                         border-2 rounded-xl text-4xl
                         md:border-3
@@ -121,6 +146,10 @@ export default function Contents() {
 
             {/* LEARN MORE */}
             <div
+                onClick={() => router.push("/dashboard/learnMore")}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") router.push("/dashboard/learnMore");
+                }}            
                 className="aspect-square bg-[var(--accent2)] hover:bg-[var(--accent)] flex items-center justify-center
                         border-2 rounded-xl text-4xl
                         md:border-3

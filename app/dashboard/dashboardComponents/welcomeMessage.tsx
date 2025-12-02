@@ -1,3 +1,5 @@
+"use client";
+
 export default function WelcomeMessage() {
     return (
         <p className="text-center font-normal 

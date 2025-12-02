@@ -1,18 +1,14 @@
-import HeroSection from "@/components/HeroSection";
-import About from "@/components/About";
-import Demo from "@/components/Demo"; 
-
 import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
-import WelcomeMessage from "../dashboardComponents/WelcomeMessage";
-import Contents from "../dashboardComponents/Contents";
+import WelcomeMessage from "./dashboardComponents/welcomeMessage";
+import Contents from "./dashboardComponents/contents";
 import Footer from "@/components/Footer";
 
 export default function DashboardPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="w-full max-w-[1200px] mx-auto flex-1 flex flex-col bg-background">
-        <NavigationBar />
+        <NavigationBar /> 
         <Utilities />
         <WelcomeMessage />
         <Contents />
@@ -21,3 +17,11 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+/* 
+Notes
+
+1. Make changes to the <NavigationBar />
+    - It does not have validation to change from main page to dashboard
+        - they should look different because user has already logged in.
+*/
