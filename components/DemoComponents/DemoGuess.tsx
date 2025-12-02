@@ -64,14 +64,14 @@ export default function DemoGuess({ playNote, selectedNote, clearSelected }: Pro
             <div className="font-normal">
                 {submitted && lastResultCorrect !== null ? (
                     lastResultCorrect ? (
-                        <span className="text-green-600
+                        <span className="
                         text-sm 
                         md:text-xl 
                         lg:text-2xl
                         ">
                             Correct!</span>
                     ) : (
-                        <span className="text-red-600
+                        <span className="
                         text-sm 
                         md:text-xl 
                         lg:text-2xl
@@ -95,18 +95,18 @@ export default function DemoGuess({ playNote, selectedNote, clearSelected }: Pro
             </div>
 
             {/* Row: Reset | ? | Your Guess | Submit */}
-            <div className="flex items-center justify-center rounded-full 
+            <div className="flex items-center justify-center rounded-full hover:bg-[var(--accent2)]
             gap-12 border-2 py-4 px-6 mt-2
-            md:gap-12 md:border-3 md:py-2 md:px-12 md:mt-6
+            md:gap-16 md:border-3 md:py-2 md:px-12 md:mt-6
             lg:gap-20 lg:border-4 lg:px-20">
 
                 {/* Reset button (left) */}
                 <button
                     onClick={handleReset}
-                    className="rounded-lg text-foreground font-semibold border-foreground hover:opacity-70
+                    className="rounded-lg text-foreground font-semibold border-foreground hover:opacity-70 cursor-pointer
                     text-xs
                     md:px-6 md:py-6 md:text-base
-                    lg:px-10 lg:py-10 lg:text-xl
+                    lg:px-10 lg:py-10 lg:text-2xl
                     ">
                     Reset
                 </button>
@@ -114,7 +114,7 @@ export default function DemoGuess({ playNote, selectedNote, clearSelected }: Pro
                 {/* "?" Random Note Button */}
                 <button
                     onClick={pickRandomNote}
-                    className="rounded-full border-foreground text-foreground font-semibold transition flex items-center justify-center text-center hover:opacity-70
+                    className="rounded-full border-foreground text-foreground font-semibold transition flex items-center justify-center text-center hover:opacity-70 cursor-pointer
                     text-xl
                     md:px-6 md:py-6 md:text-2xl 
                     lg:px-10 lg:py-10 lg:text-4xl
@@ -143,7 +143,7 @@ export default function DemoGuess({ playNote, selectedNote, clearSelected }: Pro
                     className={`rounded-md font-semibold 
                     text-xs
                     md:px-6 md:py-6 md:text-base
-                    lg:px-10 lg:py-10 lg:text-xl
+                    lg:px-10 lg:py-10 lg:text-2xl
                     ${!targetNote ? "opacity-50 cursor-not-allowed" : "hover:opacity-80"} border-foreground text-foreground
                     
                     `}

@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 
-import { useNotePlayer } from "./DemoComponents/DemoNotes";
-import DemoGuess from "./DemoComponents/DemoGuess";
+import { useNotePlayer } from "./demoComponents/DemoNotes";
+import DemoGuess from "./demoComponents/DemoGuess";
 import SignUp from "@/components/SignUp";
 
 export default function DemoNotes() {

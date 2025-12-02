@@ -17,9 +17,9 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
             <div
                 onClick={(e) => e.stopPropagation()}
                 className="relative bg-[var(--background)] text-[var(--foreground)] rounded-xl shadow-lg w-full flex flex-col
-                ml-6 mr-6 p-6 gap-4 max-w-md
-                md:max-h-md md:p-12
-                lg:max-w-lg lg:max-h-lg lg:p-16
+                ml-6 mr-6 p-6 gap-4 max-w-md border-2
+                md:max-h-md md:p-12 md:border-3
+                lg:max-w-lg lg:max-h-lg lg:p-16 lg:border-4
                 ">
                 <button
                     onClick={onClose}
@@ -69,8 +69,8 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
                 </div>
 
                 <button
-                    className="w-full mt-4 py-2 rounded-md bg-[var(--accent)]
-                    text-[var(--background)] font-semibold hover:opacity-90 transition
+                    className="w-full mt-4 py-2 rounded-md bg-[var(--accent)] font-semibold text-background
+                    bg-[var(--accent)] hover:bg-[var(--accent2)] transition
                     ">
                     Sign Up
                 </button>

@@ -47,7 +47,7 @@ export default function NavigationBar() {
 
           <button
             onClick={() => setSignInOpen(true)}
-            className="font-light hover:opacity-70 transition
+            className="font-light hover:opacity-70 transition cursor-pointer
               text-sm
               md:text-xl
               lg:text-xl"
@@ -57,7 +57,7 @@ export default function NavigationBar() {
 
           <button
             onClick={() => setSignUpOpen(true)}
-            className="bg-accent text-background font-semibold transition-opacity hover:opacity-80
+            className="text-background font-semibold bg-[var(--accent)] hover:bg-[var(--accent2)] cursor-pointer
               text-sm px-3 py-1 rounded-md
               md:text-xl md:px-5 md:py-2 md:rounded-lg"
           >

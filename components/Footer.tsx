@@ -56,7 +56,7 @@ export default function Footer() {
 
             <button
               onClick={() => setSignInOpen(true)}
-              className="hover:opacity-70 transition
+              className="hover:opacity-70 transition cursor-pointer
             text-sm
             md:text-base
             lg:text-xl
@@ -66,7 +66,7 @@ export default function Footer() {
 
             <button
               onClick={() => setSignUpOpen(true)}
-              className="hover:opacity-70 transition
+              className="hover:opacity-70 transition cursor-pointer
             text-sm
             md:text-base
             lg:text-xl
@@ -77,7 +77,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={goToDashboard}
-              className="hover:opacity-70 transition
+              className="hover:opacity-70 transition cursor-pointer
               text-sm
               md:text-base
               lg:text-xl

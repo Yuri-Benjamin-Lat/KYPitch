@@ -19,10 +19,13 @@
 :root {
   --background: #F1FBEA;
   --foreground: #1A2A19;
-  --accent: #df6d10;
+  --accent: #ee7a1b;
+  --accent2: #F29B54; /* 20 darker #d46e1b */
+  --accent3: #F29B54; /* 50% lighter*/
+
   --C4: #FF0000;
   --CH4: #FF5500;
-  --D4 :#FFAA00;
+  --D4: #FFAA00;
   --DH4: #FFD500;
   --E4: #CCFF00;
   --F4: #66FF00;
@@ -37,7 +40,8 @@
 .dark {
   --background: #1A2A19;
   --foreground: #F1FBEA;
-  --accent: #df6d10;
+  --accent2: #df6d10;
+  --accent: #F29B54;
 }
 
 @theme inline {
