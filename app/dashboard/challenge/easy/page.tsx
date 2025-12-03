@@ -2,6 +2,7 @@ import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
+import EasyNotes from "./easyComponents/EasyNotes";
 
 export default function easyPage() {
   return (
@@ -10,6 +11,7 @@ export default function easyPage() {
         <NavigationBar />
         <Utilities />
         <PageTitle title="Easy Mode" backHref="/dashboard" />
+        <EasyNotes />
       </div>
       <Footer />
     </div>

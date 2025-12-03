@@ -13,15 +13,14 @@ export default function OctaveToggles({ allowedOctaves, onToggle }: Props) {
     <div className="w-fit flex items-center justify-center 
                 px-4 mt-4 border-2 rounded-full
                 md:mt-8 md:border-3
-                lg:mt-12 lg:border-4
-                ">
+                lg:mt-12 lg:border-4"
+                >
       <div
         className=" grid grid-cols-5
                     gap-2 p-2
                     md:gap-3 md:p-3 md:grid-cols-9
                     lg:gap-4 lg:p-4
-                    "
-      >
+                    ">
         {allowedOctaves.map((isOn, idx) => (
           <button
             key={idx}

@@ -1,7 +1,7 @@
 // dashboardComponents/notesComponents/Guess.tsx
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { getFrequency } from "./getFrequency";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
   selectedNote: string | null;
   clearSelected: () => void;
   octave?: number; // still accepted but not used for random generation
-  allowedOctaves?: number[]; // NEW: list of allowed octaves (e.g. [0,1,2,3])
+  allowedOctaves?: number[]; // list of allowed octaves (e.g. [0,1,2,3])
 };
 
 const BASES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -24,6 +24,15 @@ function isSamePitch(a: string | null, b: string | null, toleranceHz = 1.0) {
   const fb = getFrequency(b ?? null);
   if (fa == null || fb == null) return false;
   return Math.abs(fa - fb) <= toleranceHz;
+}
+
+/** Extract octave number from a label like "C#4" or "A3". Returns null if not parseable. */
+function extractOctaveFromLabel(label: string | null): number | null {
+  if (!label) return null;
+  const m = label.match(/(-?\d+)$/);
+  if (!m) return null; 
+  const n = parseInt(m[1], 10);
+  return Number.isFinite(n) ? n : null;
 }
 
 export default function Guess({ playNote, selectedNote, clearSelected, allowedOctaves }: Props) {
@@ -43,6 +52,32 @@ export default function Guess({ playNote, selectedNote, clearSelected, allowedOc
     }
     return Array.from({ length: MAX_OCT - MIN_OCT + 1 }, (_, i) => i + MIN_OCT);
   }, [allowedOctaves]);
+
+  // -------------------------------
+  // NEW: watch for allowedOctaves changes and invalidate targetNote
+  // if the currently chosen random note is no longer within allowed octaves.
+  // -------------------------------
+  useEffect(() => {
+    if (!targetNote) return; // nothing to validate
+    // If octaveChoices is full range, no need to clear
+    if (!allowedOctaves || allowedOctaves.length === 0) return;
+
+    const noteOct = extractOctaveFromLabel(targetNote);
+    if (noteOct == null) return;
+
+    // If the note's octave is not among the allowed choices, clear the target
+    const allowedSet = new Set(octaveChoices);
+    if (!allowedSet.has(noteOct)) {
+      // Reset exactly like handleReset
+      setTargetNote(null);
+      setSubmitted(false);
+      setLastResultCorrect(null);
+      clearSelected();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allowedOctaves, targetNote, octaveChoices]);
+
+  // -------------------------------
 
   const pickRandomNote = () => {
     if (targetNote) {
@@ -102,7 +137,7 @@ export default function Guess({ playNote, selectedNote, clearSelected, allowedOc
         ) : targetNote ? (
           <span className="text-muted-foreground text-sm md:text-xl lg:text-2xl">Ready — choose your answer then press Submit</span>
         ) : (
-          <span className="text-muted-foreground text-sm md:text-xl lg:text-2xl">Click "?" to play a random note (any octave)</span>
+          <span className="text-muted-foreground text-sm md:text-xl lg:text-2xl">Click "?" to play a random note</span>
         )}
       </div>
 

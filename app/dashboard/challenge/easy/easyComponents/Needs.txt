@@ -1,0 +1,3 @@
+To do list for Challenge components
+
+1. Current score and High score
