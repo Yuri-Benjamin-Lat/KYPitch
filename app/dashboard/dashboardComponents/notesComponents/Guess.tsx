@@ -1,0 +1,128 @@
+// dashboardComponents/notesComponents/Guess.tsx
+"use client";
+
+import React, { useMemo, useState } from "react";
+import { getFrequency } from "./getFrequency";
+
+type Props = {
+  playNote: (noteOrFreq: string | number, duration?: number) => void;
+  selectedNote: string | null;
+  clearSelected: () => void;
+  octave?: number; // still accepted but not used for random generation
+  allowedOctaves?: number[]; // NEW: list of allowed octaves (e.g. [0,1,2,3])
+};
+
+const BASES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+
+function toLabel(base: string, octave: number) {
+  return base.replace("#", "♯") + octave;
+}
+
+/** Compare by frequency instead of raw string. Tolerance in Hz. */
+function isSamePitch(a: string | null, b: string | null, toleranceHz = 1.0) {
+  const fa = getFrequency(a ?? null);
+  const fb = getFrequency(b ?? null);
+  if (fa == null || fb == null) return false;
+  return Math.abs(fa - fb) <= toleranceHz;
+}
+
+export default function Guess({ playNote, selectedNote, clearSelected, allowedOctaves }: Props) {
+  const [targetNote, setTargetNote] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [lastResultCorrect, setLastResultCorrect] = useState<boolean | null>(null);
+
+  // RANGE FOR RANDOM PICKING: all octaves 0..8
+  const MIN_OCT = 0;
+  const MAX_OCT = 8;
+
+  // derive octave choices: if allowedOctaves provided and non-empty, use that; otherwise fallback to full range
+  const octaveChoices = useMemo(() => {
+    if (allowedOctaves && allowedOctaves.length > 0) {
+      // ensure values are within range and unique
+      return Array.from(new Set(allowedOctaves.filter((n) => n >= MIN_OCT && n <= MAX_OCT)));
+    }
+    return Array.from({ length: MAX_OCT - MIN_OCT + 1 }, (_, i) => i + MIN_OCT);
+  }, [allowedOctaves]);
+
+  const pickRandomNote = () => {
+    if (targetNote) {
+      // replay the same note if already chosen
+      playNote(targetNote);
+      return;
+    }
+
+    if (octaveChoices.length === 0) {
+      // safety: fallback to 4
+      const fallback = toLabel(BASES[Math.floor(Math.random() * BASES.length)], 4);
+      setTargetNote(fallback);
+      playNote(fallback);
+      return;
+    }
+
+    // pick a random base and a random octave from the allowed choices
+    const rndBase = BASES[Math.floor(Math.random() * BASES.length)];
+    const rndOct = octaveChoices[Math.floor(Math.random() * octaveChoices.length)];
+    const rnd = toLabel(rndBase, rndOct);
+
+    setTargetNote(rnd);
+    setSubmitted(false);
+    setLastResultCorrect(null);
+
+    // play the random note
+    playNote(rnd);
+  };
+
+  const handleSubmit = () => {
+    if (!targetNote) return;
+    setSubmitted(true);
+
+    const correct = isSamePitch(selectedNote, targetNote);
+    setLastResultCorrect(correct);
+
+    // play the correct note for confirmation
+    playNote(targetNote);
+  };
+
+  const handleReset = () => {
+    setTargetNote(null);
+    setSubmitted(false);
+    setLastResultCorrect(null);
+    clearSelected();
+  };
+
+  return (
+    <div className="w-full flex flex-col items-center mt-4 md:mt-8 lg:mt-12">
+      <div className="font-normal mb-2">
+        {submitted && lastResultCorrect !== null ? (
+          lastResultCorrect ? (
+            <span className="text-sm md:text-xl lg:text-2xl">Correct!</span>
+          ) : (
+            <span className="text-sm md:text-xl lg:text-2xl">Wrong — correct: {targetNote}</span>
+          )
+        ) : targetNote ? (
+          <span className="text-muted-foreground text-sm md:text-xl lg:text-2xl">Ready — choose your answer then press Submit</span>
+        ) : (
+          <span className="text-muted-foreground text-sm md:text-xl lg:text-2xl">Click "?" to play a random note (any octave)</span>
+        )}
+      </div>
+
+      <div className="flex items-center justify-center rounded-full hover:bg-[var(--accent2)] gap-12 border-2 py-4 px-6 mt-2 md:gap-16 md:border-3 md:py-2 md:px-12 md:mt-6 lg:gap-20 lg:border-4 lg:px-20">
+        <button onClick={handleReset} className="rounded-lg text-foreground font-semibold border-foreground hover:opacity-70 cursor-pointer text-xs md:px-6 md:py-6 md:text-base lg:px-10 lg:py-10 lg:text-2xl">
+          Reset
+        </button>
+
+        <button onClick={pickRandomNote} className="rounded-full border-foreground text-foreground font-semibold transition flex items-center justify-center text-center hover:opacity-70 cursor-pointer text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl" aria-label="Play random note">
+          {submitted && targetNote ? targetNote : "?"}
+        </button>
+
+        <div className="rounded-lg border-foreground text-foreground font-semibold flex items-center justify-center text-center text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl" aria-live="polite">
+          {selectedNote ?? "-"}
+        </div>
+
+        <button onClick={handleSubmit} disabled={!targetNote} className={`rounded-md font-semibold text-xs md:px-6 md:py-6 md:text-base lg:px-10 lg:py-10 lg:text-2xl ${!targetNote ? "opacity-50 cursor-not-allowed" : "hover:opacity-80"} border-foreground text-foreground`}>
+          Submit
+        </button>
+      </div>
+    </div>
+  );
+}

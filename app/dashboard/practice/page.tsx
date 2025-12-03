@@ -2,6 +2,7 @@ import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
+import PracticeNotes from "./practiceComponents/PracticeNotes";
 
 export default function practicePage() {
   return (
@@ -10,6 +11,7 @@ export default function practicePage() {
         <NavigationBar />
         <Utilities />
         <PageTitle title="Practice Mode" backHref="/dashboard" />
+        <PracticeNotes />
       </div>
       <Footer />
     </div>
