@@ -1,4 +1,4 @@
-// File: app/dashboard/challenge/challengeComponents/GuessChallenge.tsx
+// challenge/challengeComponents/GuessChallenge.tsx
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -11,6 +11,11 @@ type Props = {
   octave?: number; // still accepted but not used for random generation
   allowedOctaves?: number[]; // list of allowed octaves (e.g. [0,1,2,3])
   onCorrect?: () => void; // optional callback when user answers correctly
+  /**
+   * Optional parent callback to receive the selection-enabled state.
+   * Enabled when a target note exists and the round hasn't been submitted yet.
+   */
+  onSelectionEnabledChange?: (enabled: boolean) => void;
 };
 
 const BASES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -40,6 +45,7 @@ export default function GuessChallenge({
   clearSelected,
   allowedOctaves,
   onCorrect,
+  onSelectionEnabledChange,
 }: Props) {
   const [targetNote, setTargetNote] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -64,7 +70,6 @@ export default function GuessChallenge({
 
     const allowedSet = new Set(octaveChoices);
     if (!allowedSet.has(noteOct)) {
-      // invalidate if no longer allowed
       setTargetNote(null);
       setSubmitted(false);
       setLastResultCorrect(null);
@@ -73,14 +78,16 @@ export default function GuessChallenge({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allowedOctaves, targetNote, octaveChoices]);
 
-  /**
-   * pickRandomNote(silent = false)
-   * - When silent === false: sets a new target and plays it (or replays existing target if already set)
-   * - When silent === true: sets a new target silently (or does not replay existing target)
-   */
+  // Notify parent about selection-enabled state:
+  useEffect(() => {
+    const enabled = !!targetNote && !submitted;
+    if (typeof onSelectionEnabledChange === "function") {
+      onSelectionEnabledChange(enabled);
+    }
+  }, [targetNote, submitted, onSelectionEnabledChange]);
+
   const pickRandomNote = (silent = false) => {
     if (targetNote) {
-      // If there's already a chosen target, replay only when not silent
       if (!silent) playNote(targetNote);
       return;
     }
@@ -112,9 +119,6 @@ export default function GuessChallenge({
     clearSelected();
   };
 
-  // Auto-submit behavior:
-  // - When selectedNote becomes non-null while there's a targetNote and we haven't submitted yet,
-  //   auto-validate the guess exactly once.
   useEffect(() => {
     if (!targetNote) return;
     if (submitted) return;
@@ -130,45 +134,32 @@ export default function GuessChallenge({
     playNote(targetNote);
 
     if (correct && typeof onCorrect === "function") onCorrect();
-    // we intentionally do not clearSelected here; Next/Reset control clearing
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNote, targetNote]);
 
-  // Left button behavior per rules:
-  // - When there's a current random note and it's been answered correctly -> show "Next" enabled
-  // - When there's a current random note and it's been answered incorrectly -> show "Reset" enabled
-  // - In the beginning of a new random note (after pickRandomNote) the "Next" should be unclickable
-  // - When no target is chosen (fresh) show "Next" but disabled (user must press center to get a random note)
-
   const leftButtonState = (() => {
-    // returns { label, disabled, onClick }
     if (!targetNote) {
       return { label: "Next", disabled: true, onClick: undefined as any };
     }
 
     if (!submitted) {
-      // note chosen but not yet answered (waiting for auto-submit)
       return { label: "Next", disabled: true, onClick: undefined as any };
     }
 
-    // submitted === true
     if (lastResultCorrect === true) {
       return {
         label: "Next",
         disabled: false,
         onClick: () => {
-          // advance to a new random note silently (Next should never play a sound)
           setTargetNote(null);
           setSubmitted(false);
           setLastResultCorrect(null);
           clearSelected();
-          // small timeout to ensure state cleared before picking new note
-          setTimeout(() => pickRandomNote(true), 0); // <-- silent
+          setTimeout(() => pickRandomNote(true), 0);
         },
       };
     }
 
-    // submitted true but incorrect
     return {
       label: "Reset",
       disabled: false,
@@ -206,9 +197,7 @@ export default function GuessChallenge({
         <button
           onClick={leftButtonState.onClick}
           disabled={leftButtonState.disabled}
-          className={`rounded-lg text-foreground font-semibold border-foreground ${
-            leftButtonState.disabled ? "opacity-50 cursor-not-allowed" : "hover:opacity-70 cursor-pointer"
-          } text-xs md:px-6 md:py-6 md:text-base lg:px-10 lg:py-10 lg:text-2xl`}
+          className={`rounded-lg text-foreground font-semibold border-foreground ${leftButtonState.disabled ? "opacity-50 cursor-not-allowed" : "hover:opacity-70 cursor-pointer"} text-xs md:px-6 md:py-6 md:text-base lg:px-10 lg:py-10 lg:text-2xl`}
         >
           {leftButtonState.label}
         </button>
@@ -217,7 +206,6 @@ export default function GuessChallenge({
           {selectedNote ?? "-"}
         </div>
 
-        {/* Submit button removed — guesses are auto-submitted when the user picks them */}
       </div>
     </div>
   );

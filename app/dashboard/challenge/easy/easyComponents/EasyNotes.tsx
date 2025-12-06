@@ -1,3 +1,4 @@
+// app/dashboard/challenge/easy/easyComponents/EasyNotes.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -26,6 +27,7 @@ export default function EasyNotes() {
 
   // easy mode: fixed octave 4
   const [selectedNote, setSelectedNote] = useState<string | null>(null);
+  const [selectionEnabled, setSelectionEnabled] = useState<boolean>(false);
   const OCTAVE = 4;
 
   const handlePlay = (base: string, oct: number) => {
@@ -48,10 +50,20 @@ export default function EasyNotes() {
         clearSelected={clearSelected}
         octave={OCTAVE}
         allowedOctaves={[OCTAVE]}
+        onSelectionEnabledChange={(enabled) => {
+          // keep local state in sync with the challenge component
+          setSelectionEnabled(Boolean(enabled));
+        }}
       />
 
       {/* Note grid for octave 4 */}
-      <NoteGrid octave={OCTAVE} onPlay={handlePlay} selectedNote={selectedNote} notes={NOTES} />
+      <NoteGrid
+        octave={OCTAVE}
+        onPlay={handlePlay}
+        selectedNote={selectedNote}
+        notes={NOTES}
+        selectionEnabled={selectionEnabled}
+      />
     </div>
   );
 }

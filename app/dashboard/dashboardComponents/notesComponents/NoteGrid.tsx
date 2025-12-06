@@ -29,9 +29,20 @@ type Props = {
   onPlay: (base: string, octave: number) => void;
   selectedNote: string | null;
   notes?: NoteDef[]; // optional override
+  /**
+   * When false, the grid is inert and will not call onPlay.
+   * Default: true (keeps previous behaviour)
+   */
+  selectionEnabled?: boolean;
 };
 
-export default function NoteGrid({ octave, onPlay, selectedNote, notes }: Props) {
+export default function NoteGrid({
+  octave,
+  onPlay,
+  selectedNote,
+  notes,
+  selectionEnabled = true,
+}: Props) {
   const used = notes ?? DEFAULT_NOTES;
 
   return (
@@ -44,26 +55,43 @@ export default function NoteGrid({ octave, onPlay, selectedNote, notes }: Props)
     >
       {used.map(({ base, css }) => {
         const label = toLabel(base, octave);
+        const isSelected = selectedNote === label;
+        const disabled = !selectionEnabled;
+
         return (
           <button
             key={label}
-            onClick={() => onPlay(base, octave)}
+            onClick={() => {
+              if (disabled) return; // defensive: do nothing when disabled
+              onPlay(base, octave);
+            }}
+            disabled={disabled}
+            aria-disabled={disabled}
+            aria-pressed={isSelected}
             style={
               {
                 ["--note-color" as any]: `var(${css})`,
               } as React.CSSProperties
             }
-            className="
-                                aspect-square rounded-lg border-foreground text-foreground font-semibold transition
-                                flex items-center justify-center text-center
-                                px-4 py-4 border-2 text-xl
-                                md:px-6 md:py-6 md:border-3 md:text-2xl
-                                lg:px-10 lg:py-10 lg:border-4 lg:text-4xl lg:rounded-2xl
-                                hover:text-background hover:bg-[var(--note-color)]
-                                focus:outline-none"
-            aria-pressed={selectedNote === label}
+            /* NOTE: No opacity class on the button itself — keeps border full opacity */
+            className={`
+              aspect-square rounded-lg border-foreground text-foreground font-semibold transition
+              flex items-center justify-center text-center
+              px-4 py-4 border-2 text-xl
+              md:px-6 md:py-6 md:border-3 md:text-2xl
+              lg:px-10 lg:py-10 lg:border-4 lg:text-4xl lg:rounded-2xl
+              focus:outline-none
+              ${disabled ? "cursor-not-allowed hover:bg-transparent" : "hover:text-background hover:bg-[var(--note-color)]"}
+            `}
           >
-            {label}
+            {/* label span controls only the text opacity (border unaffected) */}
+            <span
+              className={`transition-opacity ${disabled ? "opacity-40" : "opacity-100"} ${
+                isSelected ? "font-bold" : ""
+              }`}
+            >
+              {label}
+            </span>
           </button>
         );
       })}

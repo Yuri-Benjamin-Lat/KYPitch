@@ -10,6 +10,11 @@ type Props = {
   clearSelected: () => void;
   octave?: number; // still accepted but not used for random generation
   allowedOctaves?: number[]; // list of allowed octaves (e.g. [0,1,2,3])
+  /**
+   * Optional: parent can provide this callback to receive the current "selection enabled" state.
+   * Enabled when a target note exists and the round hasn't been submitted yet.
+   */
+  onSelectionEnabledChange?: (enabled: boolean) => void;
 };
 
 const BASES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -30,12 +35,18 @@ function isSamePitch(a: string | null, b: string | null, toleranceHz = 1.0) {
 function extractOctaveFromLabel(label: string | null): number | null {
   if (!label) return null;
   const m = label.match(/(-?\d+)$/);
-  if (!m) return null; 
+  if (!m) return null;
   const n = parseInt(m[1], 10);
   return Number.isFinite(n) ? n : null;
 }
 
-export default function Guess({ playNote, selectedNote, clearSelected, allowedOctaves }: Props) {
+export default function Guess({
+  playNote,
+  selectedNote,
+  clearSelected,
+  allowedOctaves,
+  onSelectionEnabledChange,
+}: Props) {
   const [targetNote, setTargetNote] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [lastResultCorrect, setLastResultCorrect] = useState<boolean | null>(null);
@@ -54,8 +65,7 @@ export default function Guess({ playNote, selectedNote, clearSelected, allowedOc
   }, [allowedOctaves]);
 
   // -------------------------------
-  // NEW: watch for allowedOctaves changes and invalidate targetNote
-  // if the currently chosen random note is no longer within allowed octaves.
+  // watch for allowedOctaves changes and invalidate targetNote
   // -------------------------------
   useEffect(() => {
     if (!targetNote) return; // nothing to validate
@@ -76,6 +86,15 @@ export default function Guess({ playNote, selectedNote, clearSelected, allowedOc
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allowedOctaves, targetNote, octaveChoices]);
+
+  // Notify parent about selection-enabled state:
+  // selectionEnabled = true when there's a targetNote and it hasn't been submitted yet
+  useEffect(() => {
+    const enabled = !!targetNote && !submitted;
+    if (typeof onSelectionEnabledChange === "function") {
+      onSelectionEnabledChange(enabled);
+    }
+  }, [targetNote, submitted, onSelectionEnabledChange]);
 
   // -------------------------------
 
