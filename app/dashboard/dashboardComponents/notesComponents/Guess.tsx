@@ -133,16 +133,18 @@ export default function Guess({
     const correct = isSamePitch(selectedNote, targetNote);
     setLastResultCorrect(correct);
 
-    // play the correct note for confirmation
-    playNote(targetNote);
+    // --- CHANGE: play the user's chosen guess instead of the correct target note ---
+    // The user should hear exactly what they selected for confirmation/feedback.
+    if (!selectedNote) return;
+    playNote(selectedNote);
   };
 
-  const handleReset = () => {
+  function handleReset() {
     setTargetNote(null);
     setSubmitted(false);
     setLastResultCorrect(null);
     clearSelected();
-  };
+  }
 
   return (
     <div className="w-full flex flex-col items-center mt-4 md:mt-8 lg:mt-12">
@@ -169,9 +171,21 @@ export default function Guess({
           {submitted && targetNote ? targetNote : "?"}
         </button>
 
-        <div className="rounded-lg border-foreground text-foreground font-semibold flex items-center justify-center text-center text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl" aria-live="polite">
+        {/* center display — now clickable to replay the currently selected note */}
+        <button
+          onClick={() => {
+            if (!selectedNote) return;
+            playNote(selectedNote);
+          }}
+          disabled={!selectedNote}
+          aria-label={selectedNote ? `Play ${selectedNote}` : "No note selected"}
+          className={`rounded-lg border-foreground text-foreground font-semibold flex items-center justify-center text-center text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl ${
+            !selectedNote ? "cursor-not-allowed" : "hover:opacity-80 cursor-pointer"
+          }`}
+          aria-live="polite"
+        >
           {selectedNote ?? "-"}
-        </div>
+        </button>
 
         <button onClick={handleSubmit} disabled={!targetNote} className={`rounded-md font-semibold text-xs md:px-6 md:py-6 md:text-base lg:px-10 lg:py-10 lg:text-2xl ${!targetNote ? "opacity-50 cursor-not-allowed" : "hover:opacity-80"} border-foreground text-foreground`}>
           Submit

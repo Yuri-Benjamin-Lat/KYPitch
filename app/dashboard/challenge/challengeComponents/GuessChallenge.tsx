@@ -3,6 +3,8 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { getFrequency } from "../../dashboardComponents/notesComponents/getFrequency";
+import ScoreBoard from "./ScoreBoard";
+import { loadHighScore, saveHighScore, Difficulty } from "./scoreStorage";
 
 type Props = {
   playNote: (noteOrFreq: string | number, duration?: number) => void;
@@ -16,6 +18,11 @@ type Props = {
    * Enabled when a target note exists and the round hasn't been submitted yet.
    */
   onSelectionEnabledChange?: (enabled: boolean) => void;
+  /**
+   * Difficulty key for per-difficulty highscore storage.
+   * Defaults to "easy" — supports "easy" | "medium" | "hard" | "master".
+   */
+  difficulty?: Difficulty;
 };
 
 const BASES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -46,10 +53,15 @@ export default function GuessChallenge({
   allowedOctaves,
   onCorrect,
   onSelectionEnabledChange,
+  difficulty = "easy",
 }: Props) {
   const [targetNote, setTargetNote] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [lastResultCorrect, setLastResultCorrect] = useState<boolean | null>(null);
+
+  // scoring state
+  const [currentScore, setCurrentScore] = useState<number>(0);
+  const [highScore, setHighScore] = useState<number>(0);
 
   const MIN_OCT = 0;
   const MAX_OCT = 8;
@@ -60,6 +72,17 @@ export default function GuessChallenge({
     }
     return Array.from({ length: MAX_OCT - MIN_OCT + 1 }, (_, i) => i + MIN_OCT);
   }, [allowedOctaves]);
+
+  // load persisted high score for this difficulty on mount / difficulty change
+  useEffect(() => {
+    const loaded = loadHighScore(difficulty);
+    setHighScore(loaded);
+  }, [difficulty]);
+
+  // persist high score when it changes
+  useEffect(() => {
+    saveHighScore(difficulty, highScore);
+  }, [difficulty, highScore]);
 
   useEffect(() => {
     if (!targetNote) return;
@@ -117,6 +140,8 @@ export default function GuessChallenge({
     setSubmitted(false);
     setLastResultCorrect(null);
     clearSelected();
+    // reset current score on manual reset as well
+    setCurrentScore(0);
   };
 
   useEffect(() => {
@@ -130,10 +155,24 @@ export default function GuessChallenge({
     const correct = isSamePitch(selectedNote, targetNote);
     setLastResultCorrect(correct);
 
-    // play the correct note for confirmation
-    playNote(targetNote);
+    // play the user's chosen guess (guarded)
+    if (selectedNote) {
+      playNote(selectedNote);
+    }
 
-    if (correct && typeof onCorrect === "function") onCorrect();
+    if (correct) {
+      // increment streak/current score
+      setCurrentScore((prev) => {
+        const next = prev + 1;
+        // bump highscore if needed
+        setHighScore((hs) => (next > hs ? next : hs));
+        return next;
+      });
+      if (typeof onCorrect === "function") onCorrect();
+    } else {
+      // incorrect -> reset current streak
+      setCurrentScore(0);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNote, targetNote]);
 
@@ -171,6 +210,9 @@ export default function GuessChallenge({
 
   return (
     <div className="w-full flex flex-col items-center mt-4 md:mt-8 lg:mt-12">
+      {/* Scoreboard */}
+      <ScoreBoard currentScore={currentScore} highScore={highScore} />
+
       <div className="font-normal mb-2">
         {submitted && lastResultCorrect !== null ? (
           lastResultCorrect ? (
@@ -202,10 +244,21 @@ export default function GuessChallenge({
           {leftButtonState.label}
         </button>
 
-        <div className="rounded-lg border-foreground text-foreground font-semibold flex items-center justify-center text-center text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl" aria-live="polite">
+        {/* center display — clickable to replay the currently selected note */}
+        <button
+          onClick={() => {
+            if (!selectedNote) return;
+            playNote(selectedNote);
+          }}
+          disabled={!selectedNote}
+          aria-label={selectedNote ? `Play ${selectedNote}` : "No note selected"}
+          className={`rounded-lg border-foreground text-foreground font-semibold flex items-center justify-center text-center text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl ${
+            !selectedNote ? "cursor-not-allowed" : "hover:opacity-80 cursor-pointer"
+          }`}
+          aria-live="polite"
+        >
           {selectedNote ?? "-"}
-        </div>
-
+        </button>
       </div>
     </div>
   );

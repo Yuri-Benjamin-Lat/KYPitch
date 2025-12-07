@@ -43,7 +43,7 @@ export default function EasyNotes() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      {/* Guess controls (only octave 4 allowed) */}
+      {/* Guess controls (only octave 4 allowed). Pass difficulty="easy" for per-difficulty highscores */}
       <GuessChallenge
         playNote={playNote}
         selectedNote={selectedNote}
@@ -54,6 +54,7 @@ export default function EasyNotes() {
           // keep local state in sync with the challenge component
           setSelectionEnabled(Boolean(enabled));
         }}
+        difficulty="easy"
       />
 
       {/* Note grid for octave 4 */}
