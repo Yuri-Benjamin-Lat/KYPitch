@@ -2,6 +2,8 @@ import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
+import HardNotes from "./hardComponents/HardNotes";
+
 
 export default function hardPage() {
   return (
@@ -10,6 +12,7 @@ export default function hardPage() {
         <NavigationBar />
         <Utilities />
         <PageTitle title="Hard Mode" backHref="/dashboard" />
+        <HardNotes />
       </div>
       <Footer />
     </div>

@@ -2,6 +2,8 @@ import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
+import MediumNotes from "./mediumComponents/MediumNotes";
+
 
 export default function mediumPage() {
   return (
@@ -10,6 +12,7 @@ export default function mediumPage() {
         <NavigationBar />
         <Utilities />
         <PageTitle title="Medium Mode" backHref="/dashboard" />
+        <MediumNotes />
       </div>
       <Footer />
     </div>

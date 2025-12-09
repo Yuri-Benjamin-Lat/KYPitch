@@ -2,6 +2,8 @@ import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
+import MasterNotes from "./masterComponents/MasterNotes";
+
 
 export default function masterPage() {
   return (
@@ -10,6 +12,7 @@ export default function masterPage() {
         <NavigationBar />
         <Utilities />
         <PageTitle title="Master Mode" backHref="/dashboard" />
+        <MasterNotes />
       </div>
       <Footer />
     </div>
