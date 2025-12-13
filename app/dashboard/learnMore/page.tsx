@@ -2,6 +2,7 @@ import NavigationBar from "@/components/NavigationBar";
 import Utilities from "@/components/Utilities";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
+import LearnPagesComponent from "./learnMoreComponents/LearnPagesComponent";
 
 export default function learnMorePage() {
   return (
@@ -10,6 +11,7 @@ export default function learnMorePage() {
         <NavigationBar />
         <Utilities />
         <PageTitle title="Learn More" backHref="/dashboard" />
+        <LearnPagesComponent />
       </div>
       <Footer />
     </div>

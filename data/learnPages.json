@@ -1,0 +1,254 @@
+[
+  {
+    "id": "what-is-pitch",
+    "slug": "what-is-pitch",
+    "title": "1. What Is Pitch?",
+    "lede": "Pitch is simply how high or low a sound feels.",
+    "introParagraphs": [
+      "If you hear a tiny bird chirping, that's a high pitch.",
+      "If you hear a big drum, that's a low pitch.",
+      "Every sound you hear has a pitch — some are musical, some are just noise.",
+      "In music, we name pitches using notes, and learning to recognize them is the first step to strengthening your musical ear."
+    ],
+    "sections": [
+      { "type": "text", "content": "Think of pitch like the 'height' of a sound:" },
+      {
+        "type": "list",
+        "items": [
+          "High pitch = tall sound",
+          "Low pitch = short sound"
+        ]
+      },
+      { "type": "text", "content": "In KYPitch, you'll learn to hear these differences clearly and confidently." }
+    ]
+  },
+
+  {
+    "id": "musical-alphabet",
+    "slug": "musical-alphabet",
+    "title": "2. The Musical Alphabet (A–G)",
+    "lede": "Music uses a simple alphabet made of seven letters.",
+    "introParagraphs": [
+      "The musical alphabet contains only the letters A B C D E F G.",
+      "After G, the pattern repeats again — but the notes may sound higher or lower.",
+      "These repeating notes form the foundation of all music you hear."
+    ],
+    "sections": [
+      {
+        "type": "text",
+        "content": "Even though the note letters repeat, their pitch level changes depending on the octave."
+      },
+      {
+        "type": "list",
+        "items": [
+          "A is always A",
+          "B is always B",
+          "The letter stays the same, but the pitch can change"
+        ]
+      },
+      { "type": "text", "content": "KYPitch begins with the note A because it is the universal reference note used in tuning." }
+    ]
+  },
+
+  {
+    "id": "what-are-octaves",
+    "slug": "what-are-octaves",
+    "title": "3. What Are Octaves?",
+    "lede": "Octaves are higher or lower versions of the same note.",
+    "introParagraphs": [
+      "If you hear two notes both named A, but one sounds deeper or brighter, they are in different octaves.",
+      "Octaves describe the 'height' of the same note."
+    ],
+    "sections": [
+      { "type": "text", "content": "Examples of the note A in different octaves:" },
+      {
+        "type": "list",
+        "items": ["A3 — lower", "A4 — middle", "A5 — higher"]
+      },
+      {
+        "type": "text",
+        "content": "Think of octaves as floors of a building — same layout, different height."
+      }
+    ]
+  },
+
+  {
+    "id": "a4-explained",
+    "slug": "a4-explained",
+    "title": "4. Why A4 Is the Starting Point (440 Hz)",
+    "lede": "A4 is the universal tuning note used by musicians around the world.",
+    "introParagraphs": [
+      "A4 vibrates at 440 times per second — this is known as 440 Hz.",
+      "This pitch is in the middle of the human hearing comfort zone.",
+      "Using A4 makes it easier to compare higher and lower notes."
+    ],
+    "sections": [
+      { "type": "text", "content": "Why beginners start with A4:" },
+      {
+        "type": "list",
+        "items": [
+          "It’s neither too high nor too low",
+          "It’s the global tuning standard",
+          "It helps the ear learn pitch relationships"
+        ]
+      },
+      { "type": "text", "content": "Most KYPitch exercises begin with A4 so learners can build a stable reference." }
+    ]
+  },
+
+  {
+    "id": "frequency-explained",
+    "slug": "frequency-explained",
+    "title": "5. What Is Frequency?",
+    "lede": "Pitch comes from how fast a sound vibrates.",
+    "introParagraphs": [
+      "Every sound is created by vibrations.",
+      "Frequency tells us how fast something vibrates per second.",
+      "Higher vibration speed means a higher pitch. Lower vibration speed means a lower pitch."
+    ],
+    "sections": [
+      {
+        "type": "text",
+        "content": "You can imagine frequency like shaking a rope:"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Shake fast = tight waves = high pitch",
+          "Shake slow = wide waves = low pitch"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "All notes in KYPitch are based on these vibration speeds."
+      }
+    ]
+  },
+
+  {
+    "id": "octave-ranges",
+    "slug": "octave-ranges",
+    "title": "6. Octave Ranges You Will Learn",
+    "lede": "Each octave has a unique feel and sound.",
+    "introParagraphs": [
+      "KYPitch gradually introduces octaves so you don't get overwhelmed.",
+      "Training across multiple ranges helps your ear identify pitch accurately."
+    ],
+    "sections": [
+      { "type": "text", "content": "Low Range:" },
+      {
+        "type": "list",
+        "items": ["A1 — very deep", "A2 — warm and low", "A3 — medium-low"]
+      },
+      { "type": "text", "content": "Middle Range:" },
+      {
+        "type": "list",
+        "items": ["A4 — balanced and central"]
+      },
+      { "type": "text", "content": "High Range:" },
+      {
+        "type": "list",
+        "items": ["A5 — bright and sharp", "A6 — very high"]
+      }
+    ]
+  },
+
+  {
+    "id": "how-instruments-make-pitch",
+    "slug": "how-instruments-produce-pitch",
+    "title": "7. How Instruments Produce High and Low Notes",
+    "lede": "Instruments create pitch based on size and vibration.",
+    "introParagraphs": [
+      "Bigger objects vibrate slower, producing lower sounds.",
+      "Smaller or tighter objects vibrate faster, producing higher sounds."
+    ],
+    "sections": [
+      {
+        "type": "list",
+        "items": [
+          "Thick guitar string = lower pitch",
+          "Thin guitar string = higher pitch",
+          "Large drum = deep sound",
+          "Small drum = bright sound"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Understanding this helps your ear anticipate pitch naturally."
+      }
+    ]
+  },
+
+  {
+    "id": "ear-training-basics",
+    "slug": "ear-training-basics",
+    "title": "8. Ear Training Basics",
+    "lede": "Ear training is a learnable skill — anyone can do it.",
+    "introParagraphs": [
+      "You don’t need musical background to recognize pitch.",
+      "Your brain learns pitch through repeated exposure and comparison."
+    ],
+    "sections": [
+      {
+        "type": "list",
+        "items": [
+          "Listen — become familiar with the sound",
+          "Compare — notice higher vs lower",
+          "Recognize — build pitch memory",
+          "Recall — identify notes confidently"
+        ]
+      },
+      {
+        "type": "text",
+        "content": "Regular practice strengthens your auditory memory just like learning a new language."
+      }
+    ]
+  },
+
+  {
+    "id": "how-kypitch-works",
+    "slug": "how-kypitch-tests-work",
+    "title": "9. How KYPitch Tests Work",
+    "lede": "KYPitch helps you identify notes through repetition and feedback.",
+    "introParagraphs": [
+      "Each test plays a note from one of the available octaves.",
+      "You choose which octave you believe the note belongs to.",
+      "The app gives immediate feedback so you learn instantly."
+    ],
+    "sections": [
+      {
+        "type": "list",
+        "items": [
+          "Notes play randomly within your level",
+          "You guess the octave",
+          "Correct answers reinforce memory",
+          "Incorrect answers help your brain compare differences",
+          "Difficulty adjusts as you improve"
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "practice-tips",
+    "slug": "practice-tips",
+    "title": "10. Practice Tips for Better Pitch Recognition",
+    "lede": "Small habits make ear training easier and faster.",
+    "introParagraphs": [
+      "You will learn faster by practicing consistently, not intensely.",
+      "Even 5 minutes a day can upgrade your pitch sense dramatically."
+    ],
+    "sections": [
+      {
+        "type": "list",
+        "items": [
+          "Use headphones for clearer sound",
+          "Practice daily for short sessions",
+          "Don’t rush — early mistakes are normal",
+          "Focus on how each octave 'feels'",
+          "Repetition builds strong pitch memory"
+        ]
+      }
+    ]
+  }
+]
