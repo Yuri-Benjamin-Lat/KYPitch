@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Temporary Entry Button
 
 import SignUp from "@/components/SignUp";
 import SignIn from "@/components/SignIn";
@@ -9,20 +8,6 @@ import SignIn from "@/components/SignIn";
 export default function Footer() {
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
-
-  const router = useRouter(); // Temporary Entry Button
-
-  async function goToDashboard() { // temporary Entry Button
-    try {
-      console.log("goToDashboard clicked");
-      // await so we can catch runtime errors (and ensure navigation started)
-      await router.push("/dashboard");
-      console.log("router.push completed");
-    } catch (err) {
-      console.error("router.push failed:", err);
-      // optionally show user-visible error, e.g. toast (not included here)
-    }
-  }
 
   return (
     <>
@@ -72,17 +57,6 @@ export default function Footer() {
             lg:text-xl
           ">
               Sign Up
-            </button>
-
-            <button
-              type="button"
-              onClick={goToDashboard}
-              className="hover:opacity-70 transition cursor-pointer
-              text-sm
-              md:text-base
-              lg:text-xl
-              ">
-                🛠 Temporary Entry 🛠
             </button>
           </div>
 
