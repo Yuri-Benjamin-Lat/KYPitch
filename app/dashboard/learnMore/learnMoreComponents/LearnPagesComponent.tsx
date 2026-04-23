@@ -33,16 +33,16 @@ export default function LearnPagesComponent() {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <article>
-        <h1 className="text-2xl font-semibold mb-2">{page.title}</h1>
-        <p className="mb-4">{page.lede}</p>
+        <h1 className="text-2xl font-semibold mb-4 lg:text-3xl">{page.title}</h1>
+        <p className="mb-4 lg:text-xl">{page.lede}</p>
 
         {page.introParagraphs.map((p, idx) => (
-          <p key={idx} className="mb-2">
+          <p key={idx} className="mb-2 lg:text-xl">
             {p}
           </p>
         ))}
 
-        <div className="mt-4 space-y-4">
+        <div className="mt-4 space-y-4 lg:text-xl">
           {page.sections.map((s, si) => {
             if (s.type === "text") {
               return (
@@ -74,14 +74,14 @@ export default function LearnPagesComponent() {
           <button
             onClick={goPrev}
             disabled={index === 0}
-            className={`px-4 py-2 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`px-4 py-2 rounded-md border-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--accent2)]`}
             aria-label="Previous page"
           >
             Previous
           </button>
         </div>
 
-        <div className="text-sm text-gray-500">
+        <div className="text-sm font-bold lg:text-base">
           Page {index + 1} of {pages.length}
         </div>
 
@@ -89,7 +89,7 @@ export default function LearnPagesComponent() {
           <button
             onClick={goNext}
             disabled={index === pages.length - 1}
-            className={`px-4 py-2 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`px-4 py-2 rounded-md border-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--accent2)]`}
             aria-label="Next page"
           >
             Next

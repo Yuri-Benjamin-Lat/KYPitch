@@ -26,7 +26,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="w-full bg-foreground text-background mt-auto">
+      <footer className="w-full bg-foreground text-background mt-20">
         <div className="mx-auto flex flex-col items-center
         py-8 px-4
         md:py-12 md:px-8
