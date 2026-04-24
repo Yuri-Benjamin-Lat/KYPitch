@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useAuth, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import LightDarkMode from "./utilitiesComponents/LightDarkMode";
 
 export default function NavigationBar() {
   const { isSignedIn } = useAuth();
@@ -9,8 +10,10 @@ export default function NavigationBar() {
     <nav className="w-full flex justify-between items-center mx-auto py-4 px-4 md:py-6 md:px-8 lg:py-8 lg:px-8">
       <Link href="/" className="font-bold text-lg md:text-3xl lg:text-3xl">KYPitch</Link>
 
-      <div className="flex items-center gap-6 md:gap-8 lg:gap-12">
+      <div className="flex items-center gap-4 md:gap-6 lg:gap-8">
         <a href="#about" className="font-light hover:opacity-70 text-sm md:text-xl lg:text-xl">About</a>
+
+        <LightDarkMode />
 
         {!isSignedIn && (
           <>
