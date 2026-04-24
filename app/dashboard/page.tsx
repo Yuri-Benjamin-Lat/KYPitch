@@ -1,5 +1,4 @@
 import NavigationBar from "@/components/NavigationBar";
-import Utilities from "@/components/Utilities";
 import WelcomeMessage from "./dashboardComponents/welcomeMessage";
 import Contents from "./dashboardComponents/contents";
 import Footer from "@/components/Footer";
@@ -9,7 +8,6 @@ export default function DashboardPage() {
     <div className="min-h-screen flex flex-col">
       <div className="w-full max-w-[1200px] mx-auto flex-1 flex flex-col bg-background">
         <NavigationBar />
-        <Utilities />
         <WelcomeMessage />
         <Contents />
       </div>

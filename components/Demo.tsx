@@ -19,7 +19,7 @@ export default function DemoNotes() {
     const [selectedNote, setSelectedNote] = useState<string | null>(null);
 
     return (
-        <div className="w-full flex flex-col items-center py-4 px-8 md:py-8 md:px-12 lg:py-6 lg:px-12">
+        <div id="demo" className="w-full flex flex-col items-center py-4 px-8 md:py-8 md:px-12 lg:py-6 lg:px-12">
             <p className="text-center font-bold text-2xl md:text-4xl lg:text-5xl">Demo: Guess The Note</p>
 
             <DemoGuess playNote={playNote} selectedNote={selectedNote} clearSelected={() => setSelectedNote(null)} />
