@@ -1,164 +1,96 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
 import useClickOutsideToggle from "./contentsHooks/useClickOutsideToggle";
+
+const cards = [
+    {
+        label: "Practice",
+        icon: "🎵",
+        subtitle: "Free play, any note",
+        color: "var(--A4)",
+        route: "/dashboard/practice",
+    },
+    {
+        label: "Leaderboards",
+        icon: "🏆",
+        subtitle: "See how you rank",
+        color: "var(--FH4)",
+        route: "/dashboard/leaderboards",
+    },
+    {
+        label: "Learn",
+        icon: "📖",
+        subtitle: "Music theory & notes",
+        color: "var(--DH4)",
+        route: "/dashboard/learnMore",
+    },
+];
+
+const difficultyButtons = [
+    { label: "Easy",   color: "var(--FH4)", route: "/dashboard/challenge/easy" },
+    { label: "Medium", color: "var(--D4)",  route: "/dashboard/challenge/medium" },
+    { label: "Hard",   color: "var(--CH4)", route: "/dashboard/challenge/hard" },
+    { label: "Master", color: "var(--AH4)", route: "/dashboard/challenge/master" },
+];
 
 export default function Contents() {
     const router = useRouter();
-    // Challenge hook
-    const {
-        open: showChallengeMenu,
-        setOpen: setShowChallengeMenu,
-        ref: challengeRef,
-    } = useClickOutsideToggle(false);
-
-    // Only control Challenge now
-    function openChallenge() {
-        setShowChallengeMenu(true);
-    }
+    const { open: showChallengeMenu, setOpen: setShowChallengeMenu, ref: challengeRef } = useClickOutsideToggle(false);
 
     return (
-        <div className="grid 
-            grid-cols-1 gap-8 p-8 pt-0
-            md:grid-cols-2 
-            lg:gap-12 lg:p-12 lg:pt-0
-        ">
+        <div className="grid grid-cols-1 gap-8 p-8 pt-0 md:grid-cols-2 lg:gap-12 lg:p-12 lg:pt-0">
 
-            {/* PRACTICE */}
-            <div
-                onClick={() => router.push("/dashboard/practice")}
-                role="button"
-                aria-label="Practice"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") router.push("/dashboard/practice");
-                }}
-                className="aspect-square bg-[var(--accent2)] hover:bg-[var(--accent)] flex items-center justify-center
-                        border-2 rounded-xl text-4xl
-                        md:border-3
-                        lg:border-4 lg:text-6xl"
-                >
-                Practice
-            </div>
-
-            {/* CHALLENGE (toggles menu) */}
+            {/* CHALLENGE */}
             {showChallengeMenu ? (
                 <div
                     ref={challengeRef}
-                    className=" aspect-square grid grid-cols-1 flex bg-[var(--accent2)] rounded-xl 
-                        border-2 text-3xl p-2 gap-2
-                        md:border-3 md:p-3 md:gap-3
-                        lg:border-4 lg:text-5xl lg:p-4 lg:gap-4
-                        ">
-                    <button
-                        type="button"
-                        className="rounded-xl hover:bg-[var(--FH4)] bg-background
-                                    border-2 
-                                    md:border-3
-                                    lg:border-4
-                                    "
-                        onClick={() => router.push("/dashboard/challenge/easy")}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/easy");
-                        }}
-                    >
-                        Easy
-                    </button>
-                    <button
-                        type="button"
-                        className="rounded-xl hover:bg-[var(--D4)] bg-background
-                                    border-2 
-                                    md:border-3
-                                    lg:border-4
-                                    "
-                        onClick={() => router.push("/dashboard/challenge/medium")}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/medium");
-                        }}
-                    >
-                        Medium
-                    </button>
-                    <button
-                        type="button"
-                        className="rounded-xl hover:bg-[var(--CH4)] bg-background
-                                    border-2
-                                    md:border-3
-                                    lg:border-4
-                                    "
-                        onClick={() => router.push("/dashboard/challenge/hard")}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/hard");
-                        }}
-                    >
-                        Hard
-                    </button>
-                    <button
-                        type="button"
-                        className="rounded-xl hover:bg-[var(--AH4)] bg-background
-                                    border-2
-                                    md:border-3
-                                    lg:border-4
-                                    "
-                        onClick={() => router.push("/dashboard/challenge/master")}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") router.push("/dashboard/challenge/master");
-                        }}
-                    >
-                        Master
-                    </button>
+                    className="aspect-square grid grid-cols-2 bg-background rounded-xl border-2 p-2 gap-2 md:border-3 md:p-3 md:gap-3 lg:border-4 lg:p-4 lg:gap-4"
+                >
+                    {difficultyButtons.map((d) => (
+                        <button
+                            key={d.label}
+                            type="button"
+                            style={{ "--card-color": d.color } as React.CSSProperties}
+                            onClick={() => router.push(d.route)}
+                            className="rounded-xl bg-background border-2 font-semibold text-xl transition-all duration-200 hover:text-background hover:bg-[var(--card-color)] hover:border-[var(--card-color)] hover:shadow-[0_0_24px_var(--card-color)] md:border-3 lg:border-4 lg:text-2xl"
+                        >
+                            {d.label}
+                        </button>
+                    ))}
                 </div>
             ) : (
                 <div
-                    onClick={openChallenge}
+                    onClick={() => setShowChallengeMenu(true)}
                     role="button"
                     tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            openChallenge();
-                        }
-                    }}
-                    className="aspect-square bg-[var(--accent2)] hover:bg-[var(--accent)] flex items-center justify-center cursor-pointer
-                                    border-2 rounded-xl text-4xl
-                                    md:border-3
-                                    lg:border-4 lg:text-6xl
-                            ">
-                    Challenge
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setShowChallengeMenu(true); } }}
+                    style={{ "--card-color": "var(--CH4)" } as React.CSSProperties}
+                    className="aspect-square flex flex-col items-center justify-center gap-2 cursor-pointer border-2 rounded-xl transition-all duration-200 hover:bg-[var(--card-color)] hover:border-[var(--card-color)] hover:text-background hover:shadow-[0_0_32px_var(--card-color)] md:border-3 lg:border-4 lg:gap-4"
+                >
+                    <span className="text-4xl lg:text-6xl">⚡</span>
+                    <span className="font-bold text-2xl lg:text-4xl">Challenge</span>
+                    <span className="font-normal opacity-60 text-sm lg:text-lg">Test your limits</span>
                 </div>
             )}
 
-            {/* LEADERBOARDS */}
-            <div
-                onClick={() => router.push("/dashboard/leaderboards")}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") router.push("/dashboard/leaderboards");
-                }}            
-                className="aspect-square bg-[var(--accent2)] hover:bg-[var(--accent)] flex items-center justify-center cursor-pointer
-                        border-2 rounded-xl text-4xl
-                        md:border-3
-                        lg:border-4 lg:text-6xl"
-                role="button"
-                aria-label="Leaderboards"
+            {/* OTHER CARDS */}
+            {cards.map((card) => (
+                <div
+                    key={card.label}
+                    onClick={() => router.push(card.route)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") router.push(card.route); }}
+                    style={{ "--card-color": card.color } as React.CSSProperties}
+                    className="aspect-square flex flex-col items-center justify-center gap-2 cursor-pointer border-2 rounded-xl transition-all duration-200 hover:bg-[var(--card-color)] hover:border-[var(--card-color)] hover:text-background hover:shadow-[0_0_32px_var(--card-color)] md:border-3 lg:border-4 lg:gap-4"
                 >
-                Leaderboards
-            </div>
+                    <span className="text-4xl lg:text-6xl">{card.icon}</span>
+                    <span className="font-bold text-2xl lg:text-4xl">{card.label}</span>
+                    <span className="font-normal opacity-60 text-sm lg:text-lg">{card.subtitle}</span>
+                </div>
+            ))}
 
-            {/* LEARN MORE */}
-            <div
-                onClick={() => router.push("/dashboard/learnMore")}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") router.push("/dashboard/learnMore");
-                }}            
-                className="aspect-square bg-[var(--accent2)] hover:bg-[var(--accent)] flex items-center justify-center
-                        border-2 rounded-xl text-4xl
-                        md:border-3
-                        lg:border-4 lg:text-6xl"
-                role="button"
-                aria-label="Learn More"
-                >
-                Learn More
-            </div>
         </div>
     );
 }
