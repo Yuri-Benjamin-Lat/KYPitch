@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { SignUpButton } from "@clerk/nextjs";
-import { useNotePlayer } from "./demoComponents/DemoNotes";
-import DemoGuess from "./demoComponents/DemoGuess";
+import { useNotePlayer } from "./DemoComponents/DemoNotes";
+import DemoGuess from "./DemoComponents/DemoGuess";
 
 export default function DemoNotes() {
     const notes = useMemo(() => [
@@ -30,7 +30,11 @@ export default function DemoNotes() {
                         key={note.label}
                         onClick={() => { playNote(note.label); setSelectedNote(note.label); }}
                         style={{ "--note-color": `var(${note.css})` } as React.CSSProperties}
-                        className="aspect-square rounded-lg border-foreground text-foreground font-semibold transition flex items-center justify-center text-center px-4 py-4 border-2 text-xl md:px-6 md:py-6 md:border-3 md:text-2xl lg:px-10 lg:py-10 lg:border-4 lg:text-4xl lg:rounded-2xl hover:text-background hover:bg-[var(--note-color)]"
+                        className={`aspect-square rounded-lg font-semibold transition-all duration-200 flex items-center justify-center text-center px-4 py-4 border-2 text-xl md:px-6 md:py-6 md:border-3 md:text-2xl lg:px-10 lg:py-10 lg:border-4 lg:text-4xl lg:rounded-2xl hover:scale-105 hover:text-background hover:bg-[var(--note-color)] hover:border-[var(--note-color)] hover:shadow-[0_0_24px_var(--note-color)] ${
+                            selectedNote === note.label
+                                ? "text-background bg-[var(--note-color)] border-[var(--note-color)] shadow-[0_0_24px_var(--note-color)]"
+                                : "border-foreground text-foreground"
+                        }`}
                         aria-pressed={selectedNote === note.label}
                     >
                         {note.label}
