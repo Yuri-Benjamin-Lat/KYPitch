@@ -5,7 +5,7 @@ import { SignUpButton } from "@clerk/nextjs";
 import { useNotePlayer } from "./demoComponents/DemoNotes";
 import DemoGuess from "./demoComponents/DemoGuess";
 
-export default function Demo() {
+export default function DemoNotes() {
     const notes = useMemo(() => [
         { label: "C4", css: "--C4" }, { label: "C♯4", css: "--CH4" },
         { label: "D4", css: "--D4" }, { label: "D♯4", css: "--DH4" },
