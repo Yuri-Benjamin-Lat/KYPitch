@@ -1,52 +1,100 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { SignUpButton } from "@clerk/nextjs";
-import { useNotePlayer } from "./demoComponents/DemoNotes";
-import DemoGuess from "./demoComponents/DemoGuess";
+import { useRef, useCallback } from "react";
 
-export default function DemoNotes() {
-    const notes = useMemo(() => [
-        { label: "C4", css: "--C4" }, { label: "C♯4", css: "--CH4" },
-        { label: "D4", css: "--D4" }, { label: "D♯4", css: "--DH4" },
-        { label: "E4", css: "--E4" }, { label: "F4", css: "--F4" },
-        { label: "F♯4", css: "--FH4" }, { label: "G4", css: "--G4" },
-        { label: "G♯4", css: "--GH4" }, { label: "A4", css: "--A4" },
-        { label: "A♯4", css: "--AH4" }, { label: "B4", css: "--B4" },
-    ], []);
+export function useNotePlayer() {
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
-    const { playNote } = useNotePlayer();
-    const [selectedNote, setSelectedNote] = useState<string | null>(null);
+  // Keep track of the current note playing
+  const currentOscRef = useRef<OscillatorNode | null>(null);
+  const currentGainRef = useRef<GainNode | null>(null);
 
-    return (
-        <div id="demo" className="w-full flex flex-col items-center py-4 px-8 md:py-8 md:px-12 lg:py-6 lg:px-12">
-            <p className="text-center font-bold text-2xl md:text-4xl lg:text-5xl">Demo: Guess The Note</p>
+  const freqMap: Record<string, number> = {
+    C4: 261.63,
+    "C♯4": 277.18,
+    "C#4": 277.18,
+    D4: 293.66,
+    "D♯4": 311.13,
+    "D#4": 311.13,
+    E4: 329.63,
+    F4: 349.23,
+    "F♯4": 369.99,
+    "F#4": 369.99,
+    G4: 392.0,
+    "G♯4": 415.3,
+    "G#4": 415.3,
+    A4: 440.0,
+    "A♯4": 466.16,
+    "A#4": 466.16,
+    B4: 493.88,
+  };
 
-            <DemoGuess playNote={playNote} selectedNote={selectedNote} clearSelected={() => setSelectedNote(null)} />
+  const getCtx = useCallback(() => {
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
+    }
+    return audioCtxRef.current;
+  }, []);
 
-            <div className="grid grid-cols-4 gap-4 mt-4 md:grid-cols-6 md:gap-6 md:mt-8 lg:grid-cols-6 lg:gap-8 lg:mt-8">
-                {notes.map((note) => (
-                    <button
-                        key={note.label}
-                        onClick={() => { playNote(note.label); setSelectedNote(note.label); }}
-                        style={{ "--note-color": `var(${note.css})` } as React.CSSProperties}
-                        className={`aspect-square rounded-lg font-semibold transition-all duration-200 flex items-center justify-center text-center px-4 py-4 border-2 text-xl md:px-6 md:py-6 md:border-3 md:text-2xl lg:px-10 lg:py-10 lg:border-4 lg:text-4xl lg:rounded-2xl hover:scale-105 hover:text-background hover:bg-[var(--note-color)] hover:border-[var(--note-color)] hover:shadow-[0_0_24px_var(--note-color)] ${
-                            selectedNote === note.label
-                                ? "text-background bg-[var(--note-color)] border-[var(--note-color)] shadow-[0_0_24px_var(--note-color)]"
-                                : "border-foreground text-foreground"
-                        }`}
-                        aria-pressed={selectedNote === note.label}
-                    >
-                        {note.label}
-                    </button>
-                ))}
-            </div>
+  const stopCurrentNote = () => {
+    const ctx = audioCtxRef.current;
+    const osc = currentOscRef.current;
+    const gain = currentGainRef.current;
 
-            <SignUpButton mode="modal">
-                <button className="text-center font-bold hover:opacity-70 transition text-sm mt-8 md:text-xl md:mt-12 lg:text-2xl lg:mt-12">
-                    <span className="text-accent">Sign Up</span> to get the most of KYPitch
-                </button>
-            </SignUpButton>
-        </div>
-    );
+    if (!ctx || !osc || !gain) return;
+
+    const now = ctx.currentTime;
+
+    gain.gain.cancelScheduledValues(now);
+    gain.gain.setValueAtTime(gain.gain.value, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.005);
+
+    osc.stop(now + 0.03);
+
+    currentOscRef.current = null;
+    currentGainRef.current = null;
+  };
+
+  const playNote = useCallback(
+    (noteOrFreq: string | number, duration = 5) => {
+      const ctx = getCtx();
+      if (!ctx) return;
+
+      const freq =
+        typeof noteOrFreq === "number"
+          ? noteOrFreq
+          : freqMap[noteOrFreq];
+
+      if (!freq) {
+        console.warn("Unknown note:", noteOrFreq);
+        return;
+      }
+
+      stopCurrentNote();
+
+      const osc = ctx.createOscillator();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.5, ctx.currentTime + 0.005);
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        ctx.currentTime + duration
+      );
+
+      osc.connect(gain).connect(ctx.destination);
+
+      currentOscRef.current = osc;
+      currentGainRef.current = gain;
+
+      osc.start();
+      osc.stop(ctx.currentTime + duration + 0.05);
+    },
+    [getCtx]
+  );
+
+  return { playNote };
 }
