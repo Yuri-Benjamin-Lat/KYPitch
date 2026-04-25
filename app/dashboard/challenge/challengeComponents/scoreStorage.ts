@@ -28,3 +28,16 @@ export function saveHighScore(difficulty: Difficulty, value: number): void {
     // ignore storage errors
   }
 }
+
+export async function syncHighScore(difficulty: Difficulty, score: number): Promise<void> {
+  if (score <= 0) return;
+  try {
+    await fetch("/api/scores", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ difficulty, score }),
+    });
+  } catch {
+    // silently fail — localStorage still tracks the score locally
+  }
+}

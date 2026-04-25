@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getFrequency } from "../../dashboardComponents/notesComponents/getFrequency";
 import ScoreBoard from "./ScoreBoard";
-import { loadHighScore, saveHighScore, Difficulty } from "./scoreStorage";
+import { loadHighScore, saveHighScore, syncHighScore, Difficulty } from "./scoreStorage";
 
 type Props = {
   playNote: (noteOrFreq: string | number, duration?: number) => void;
@@ -78,9 +78,10 @@ export default function GuessChallenge({
     setHighScore(loaded);
   }, [difficulty]);
 
-  // persist high score when it changes
+  // persist high score locally and sync to Supabase when it changes
   useEffect(() => {
     saveHighScore(difficulty, highScore);
+    syncHighScore(difficulty, highScore);
   }, [difficulty, highScore]);
 
   useEffect(() => {
