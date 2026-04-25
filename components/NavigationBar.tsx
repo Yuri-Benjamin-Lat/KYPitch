@@ -5,7 +5,19 @@ import { useAuth, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import LightDarkMode from "./utilitiesComponents/LightDarkMode";
 
 export default function NavigationBar() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
+  // ...
+  {
+    !isLoaded && (
+      <div className="w-16 h-7 bg-foreground/10 rounded-md animate-pulse" />
+    )
+  }
+  {
+    isLoaded && !isSignedIn && (
+      <> ...Sign In/Up... </>
+    )
+  }
+  { isLoaded && isSignedIn && <UserButton /> }
   const pathname = usePathname();
   const isOnDashboard = pathname.startsWith("/dashboard");
 
