@@ -5,7 +5,7 @@ import { useCallback } from "react";
 import { loadSampler, getSampler, toToneNote } from "@/lib/tonePlayer";
 
 export function useNotePlayer() {
-  const playNote = useCallback((noteOrFreq: string | number, duration = 1.5): void => {
+  const playNote = useCallback((noteOrFreq: string | number, duration = 0.75): void => {
     void (async () => {
       const Tone = await import("tone");
       await Tone.start();
