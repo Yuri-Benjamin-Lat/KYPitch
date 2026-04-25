@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { SignUpButton } from "@clerk/nextjs";
-import { useNotePlayer } from "./DemoComponents/DemoNotes";
-import DemoGuess from "./DemoComponents/DemoGuess";
+import { useNotePlayer } from "./demoComponents/DemoNotes";
+import DemoGuess from "./demoComponents/DemoGuess";
 
 export default function DemoNotes() {
     const notes = useMemo(() => [

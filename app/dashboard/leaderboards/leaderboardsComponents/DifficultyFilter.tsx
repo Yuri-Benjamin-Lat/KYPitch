@@ -5,22 +5,28 @@ type Props = {
   onChange: (difficulty: string) => void;
 };
 
-const difficulties = ["easy", "medium", "hard", "master"];
+const difficulties = [
+  { label: "Easy",   value: "easy",   color: "var(--FH4)" },
+  { label: "Medium", value: "medium", color: "var(--D4)"  },
+  { label: "Hard",   value: "hard",   color: "var(--CH4)" },
+  { label: "Master", value: "master", color: "var(--AH4)" },
+];
 
 export default function DifficultyFilter({ selected, onChange }: Props) {
   return (
-    <div className="flex gap-2 mb-6">
-      {difficulties.map((diff) => (
+    <div className="flex gap-3 mb-8 flex-wrap justify-center">
+      {difficulties.map((d) => (
         <button
-          key={diff}
-          onClick={() => onChange(diff)}
-          className={`px-4 py-2 rounded-full font-semibold transition
-            ${selected === diff
-              ? "bg-foreground text-background"
-              : "border border-foreground text-foreground hover:bg-foreground/10"
-            }`}
+          key={d.value}
+          onClick={() => onChange(d.value)}
+          style={{ "--diff-color": d.color } as React.CSSProperties}
+          className={`px-5 py-2 rounded-full font-semibold text-sm lg:text-base transition-all duration-200 border-2 ${
+            selected === d.value
+              ? "bg-[var(--diff-color)] border-[var(--diff-color)] text-background shadow-[0_0_20px_var(--diff-color)]"
+              : "border-foreground/30 hover:border-[var(--diff-color)] hover:text-[var(--diff-color)] hover:shadow-[0_0_12px_var(--diff-color)]"
+          }`}
         >
-          {diff.toUpperCase()}
+          {d.label}
         </button>
       ))}
     </div>

@@ -1,19 +1,36 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuth, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import LightDarkMode from "./utilitiesComponents/LightDarkMode";
 
 export default function NavigationBar() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
+  // ...
+  {
+    !isLoaded && (
+      <div className="w-16 h-7 bg-foreground/10 rounded-md animate-pulse" />
+    )
+  }
+  {
+    isLoaded && !isSignedIn && (
+      <> ...Sign In/Up... </>
+    )
+  }
+  { isLoaded && isSignedIn && <UserButton /> }
+  const pathname = usePathname();
+  const isOnDashboard = pathname.startsWith("/dashboard");
 
   return (
     <nav className="w-full flex justify-between items-center mx-auto py-4 px-4 md:py-6 md:px-8 lg:py-8 lg:px-8">
       <Link href="/" className="font-bold text-lg md:text-3xl lg:text-3xl">KYPitch</Link>
 
       <div className="flex items-center gap-4 md:gap-6 lg:gap-8">
-        <a href="#about" className="font-light hover:opacity-70 text-sm md:text-xl lg:text-xl">About</a>
-
         <LightDarkMode />
+
+        {!isOnDashboard && (
+          <a href="#about" className="font-light hover:opacity-70 text-sm md:text-xl lg:text-xl">About</a>
+        )}
 
         {!isSignedIn && (
           <>
@@ -32,9 +49,6 @@ export default function NavigationBar() {
 
         {isSignedIn && (
           <>
-            <Link href="/dashboard" className="font-light hover:opacity-70 transition text-sm md:text-xl lg:text-xl">
-              Dashboard
-            </Link>
             <UserButton />
           </>
         )}

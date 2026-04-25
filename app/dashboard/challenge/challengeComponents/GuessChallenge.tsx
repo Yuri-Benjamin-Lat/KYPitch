@@ -1,4 +1,3 @@
-// challenge/challengeComponents/GuessChallenge.tsx
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -227,10 +226,10 @@ export default function GuessChallenge({
         )}
       </div>
 
-      <div className="flex items-center justify-center rounded-full hover:bg-[var(--accent2)] gap-12 border-2 py-4 px-6 mt-2 md:gap-16 md:border-3 md:py-2 md:px-12 md:mt-6 lg:gap-20 lg:border-4 lg:px-20">
+      <div className="flex items-center justify-center rounded-full hover:bg-[var(--accent2)] gap-4 border-2 py-3 px-4 mt-2 md:gap-16 md:border-3 md:py-2 md:px-12 md:mt-6 lg:gap-20 lg:border-4 lg:px-20">
         <button
-          onClick={() => pickRandomNote(false)} // "?" plays the note (silent=false)
-          className="rounded-full border-foreground text-foreground font-semibold transition flex items-center justify-center text-center hover:opacity-70 cursor-pointer text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl"
+          onClick={() => pickRandomNote(false)}
+          className="rounded-full text-foreground font-semibold transition flex items-center justify-center text-center hover:opacity-70 cursor-pointer text-lg px-3 py-3 md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl"
           aria-label="Play random note"
         >
           {submitted && targetNote ? targetNote : "?"}
@@ -239,12 +238,11 @@ export default function GuessChallenge({
         <button
           onClick={leftButtonState.onClick}
           disabled={leftButtonState.disabled}
-          className={`rounded-lg text-foreground font-semibold border-foreground ${leftButtonState.disabled ? "opacity-50 cursor-not-allowed" : "hover:opacity-70 cursor-pointer"} text-xs md:px-6 md:py-6 md:text-base lg:px-10 lg:py-10 lg:text-2xl`}
+          className={`rounded-lg text-foreground font-semibold text-xs px-2 py-2 ${leftButtonState.disabled ? "opacity-50 cursor-not-allowed" : "hover:opacity-70 cursor-pointer"} md:px-6 md:py-6 md:text-base lg:px-10 lg:py-10 lg:text-2xl`}
         >
           {leftButtonState.label}
         </button>
 
-        {/* center display — clickable to replay the currently selected note */}
         <button
           onClick={() => {
             if (!selectedNote) return;
@@ -252,8 +250,8 @@ export default function GuessChallenge({
           }}
           disabled={!selectedNote}
           aria-label={selectedNote ? `Play ${selectedNote}` : "No note selected"}
-          className={`rounded-lg border-foreground text-foreground font-semibold flex items-center justify-center text-center text-xl md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl ${
-            !selectedNote ? "cursor-not-allowed" : "hover:opacity-80 cursor-pointer"
+          className={`rounded-lg text-foreground font-semibold flex items-center justify-center text-center text-lg px-3 py-3 md:px-6 md:py-6 md:text-2xl lg:px-10 lg:py-10 lg:text-4xl ${
+            !selectedNote ? "cursor-not-allowed opacity-40" : "hover:opacity-80 cursor-pointer"
           }`}
           aria-live="polite"
         >
