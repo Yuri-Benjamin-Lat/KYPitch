@@ -28,10 +28,10 @@ const cards = [
 ];
 
 const difficultyButtons = [
-    { label: "Easy",   color: "var(--FH4)", route: "/dashboard/challenge/easy" },
-    { label: "Medium", color: "var(--D4)",  route: "/dashboard/challenge/medium" },
-    { label: "Hard",   color: "var(--CH4)", route: "/dashboard/challenge/hard" },
-    { label: "Master", color: "var(--AH4)", route: "/dashboard/challenge/master" },
+    { label: "Easy",   subtitle: "1 Octave",   color: "var(--FH4)", route: "/dashboard/challenge/easy" },
+    { label: "Medium", subtitle: "2 Octaves",  color: "var(--D4)",  route: "/dashboard/challenge/medium" },
+    { label: "Hard",   subtitle: "7 Octaves",  color: "var(--CH4)", route: "/dashboard/challenge/hard" },
+    { label: "Master", subtitle: "Full Range", color: "var(--AH4)", route: "/dashboard/challenge/master" },
 ];
 
 export default function Contents() {
@@ -53,9 +53,10 @@ export default function Contents() {
                             type="button"
                             style={{ "--card-color": d.color } as React.CSSProperties}
                             onClick={() => router.push(d.route)}
-                            className="rounded-xl bg-background border-2 font-semibold text-xl transition-all duration-200 hover:text-background hover:bg-[var(--card-color)] hover:border-[var(--card-color)] hover:shadow-[0_0_24px_var(--card-color)] md:border-3 lg:border-4 lg:text-2xl"
+                            className="rounded-xl bg-background border-2 font-semibold transition-all duration-200 hover:text-background hover:bg-[var(--card-color)] hover:border-[var(--card-color)] hover:shadow-[0_0_24px_var(--card-color)] md:border-3 lg:border-4 flex flex-col items-center justify-center gap-1"
                         >
-                            {d.label}
+                            <span className="text-lg lg:text-2xl">{d.label}</span>
+                            <span className="font-normal opacity-60 text-xs lg:text-sm">{d.subtitle}</span>
                         </button>
                     ))}
                 </div>
