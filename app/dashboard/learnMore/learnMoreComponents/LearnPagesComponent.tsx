@@ -21,81 +21,93 @@ export default function LearnPagesComponent() {
   const [index, setIndex] = useState<number>(0);
 
   const page = pages[index];
-
-  function goPrev() {
-    setIndex((i) => Math.max(0, i - 1));
-  }
-
-  function goNext() {
-    setIndex((i) => Math.min(pages.length - 1, i + 1));
-  }
+  const progress = ((index + 1) / pages.length) * 100;
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <article>
-        <h1 className="text-2xl font-semibold mb-4 lg:text-3xl">{page.title}</h1>
-        <p className="mb-4 lg:text-xl">{page.lede}</p>
+    <div className="flex gap-8 px-6 pb-12 lg:px-8">
 
-        {page.introParagraphs.map((p, idx) => (
-          <p key={idx} className="mb-2 lg:text-xl">
-            {p}
-          </p>
-        ))}
+      {/* Sidebar — desktop only */}
+      <aside className="hidden lg:flex flex-col w-56 shrink-0 border-r border-foreground/20 pr-6 pt-2">
+        <p className="font-semibold text-xs uppercase tracking-widest text-accent mb-4">Topics</p>
+        <nav className="flex flex-col gap-1">
+          {pages.map((p, i) => (
+            <button
+              key={p.id}
+              onClick={() => setIndex(i)}
+              className={`text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 ${
+                i === index
+                  ? "bg-[var(--accent)] text-background font-semibold"
+                  : "hover:bg-foreground/10 opacity-60 hover:opacity-100"
+              }`}
+            >
+              {p.title}
+            </button>
+          ))}
+        </nav>
+      </aside>
 
-        <div className="mt-4 space-y-4 lg:text-xl">
-          {page.sections.map((s, si) => {
-            if (s.type === "text") {
-              return (
-                <p key={si} className="leading-relaxed">
-                  {s.content}
-                </p>
-              );
-            }
+      {/* Main content */}
+      <div className="flex-1 min-w-0">
 
-            if (s.type === "list") {
-              return (
-                <ul key={si} className="list-disc pl-6">
-                  {s.items.map((it, ii) => (
-                    <li key={ii} className="mb-1">
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              );
-            }
-
-            return null;
-          })}
+        {/* Progress bar */}
+        <div className="w-full h-1.5 bg-foreground/10 rounded-full mb-8">
+          <div
+            className="h-full bg-[var(--accent)] rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
         </div>
-      </article>
 
-      <footer className="mt-8 flex items-center justify-between">
-        <div>
+        <article>
+          <h1 className="font-bold text-2xl lg:text-4xl">{page.title}</h1>
+          <p className="text-accent font-semibold text-lg lg:text-2xl mt-3">{page.lede}</p>
+
+          <div className="mt-6 space-y-3 text-base lg:text-xl opacity-80">
+            {page.introParagraphs.map((p, idx) => (
+              <p key={idx}>{p}</p>
+            ))}
+          </div>
+
+          <div className="mt-6 space-y-4 text-base lg:text-xl">
+            {page.sections.map((s, si) => {
+              if (s.type === "text") {
+                return <p key={si} className="leading-relaxed">{s.content}</p>;
+              }
+              if (s.type === "list") {
+                return (
+                  <ul key={si} className="list-disc pl-6 space-y-1">
+                    {s.items.map((it, ii) => (
+                      <li key={ii}>{it}</li>
+                    ))}
+                  </ul>
+                );
+              }
+              return null;
+            })}
+          </div>
+        </article>
+
+        {/* Navigation */}
+        <div className="mt-12 flex items-center justify-between">
           <button
-            onClick={goPrev}
+            onClick={() => setIndex((i) => Math.max(0, i - 1))}
             disabled={index === 0}
-            className={`px-4 py-2 rounded-md border-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--accent2)]`}
-            aria-label="Previous page"
+            className="px-5 py-2 rounded-lg border-2 font-semibold text-sm lg:text-base transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_16px_var(--accent)]"
           >
-            Previous
+            ← Previous
           </button>
-        </div>
 
-        <div className="text-sm font-bold lg:text-base">
-          Page {index + 1} of {pages.length}
-        </div>
+          <span className="text-sm font-semibold opacity-50">{index + 1} / {pages.length}</span>
 
-        <div>
           <button
-            onClick={goNext}
+            onClick={() => setIndex((i) => Math.min(pages.length - 1, i + 1))}
             disabled={index === pages.length - 1}
-            className={`px-4 py-2 rounded-md border-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--accent2)]`}
-            aria-label="Next page"
+            className="px-5 py-2 rounded-lg border-2 font-semibold text-sm lg:text-base transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_16px_var(--accent)]"
           >
-            Next
+            Next →
           </button>
         </div>
-      </footer>
+
+      </div>
     </div>
   );
 }
