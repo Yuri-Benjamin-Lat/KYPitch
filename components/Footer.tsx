@@ -1,8 +1,11 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useAuth, SignInButton, SignUpButton } from "@clerk/nextjs";
 
 export default function Footer() {
   const { isSignedIn } = useAuth();
+  const pathname = usePathname();
+  const isOnDashboard = pathname.startsWith("/dashboard");
 
   return (
     <footer className="w-full bg-foreground text-background mt-20">
@@ -10,7 +13,9 @@ export default function Footer() {
         <p className="font-bold text-lg md:text-3xl lg:text-3xl">KYPitch</p>
 
         <div className="flex items-center gap-6 mt-6 md:gap-10 md:mt-8 lg:gap-20 lg:mt-10">
-          <a href="#about" className="hover:opacity-70 transition text-sm md:text-base lg:text-xl">About</a>
+          {!isOnDashboard && (
+            <a href="#about" className="hover:opacity-70 transition text-sm md:text-base lg:text-xl">About</a>
+          )}
 
           {!isSignedIn && (
             <>
