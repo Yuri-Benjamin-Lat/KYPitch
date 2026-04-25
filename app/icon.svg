@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="7" fill="#1A2A19"/>
+  <!-- Orange accent bar left edge -->
+  <rect x="0" y="0" width="3" height="32" rx="1.5" fill="#ee7a1b"/>
+  <!-- Large K -->
+  <text x="6" y="24" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="22" fill="#ee7a1b">K</text>
+  <!-- Stacked YP -->
+  <text x="22" y="16" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="10" fill="#F1FBEA">Y</text>
+  <text x="22" y="27" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="10" fill="#F1FBEA">P</text>
+</svg>
